@@ -1,28 +1,33 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import Sidebar from './components/Sidebar';
+import Header from './components/Header';
+import HeroCover from './components/HeroCover';
+import Dashboard from './components/Dashboard';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-800">
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
+      <div className="lg:pl-72">
+        <Header onMenuClick={() => setSidebarOpen(true)} />
+        <main>
+          <HeroCover />
+          <section className="px-4 sm:px-6 lg:px-10 -mt-24 relative z-10">
+            <Dashboard />
+          </section>
+        </main>
       </div>
     </div>
-  )
+  );
 }
-
-export default App
